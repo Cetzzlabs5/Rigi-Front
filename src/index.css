@@ -111,8 +111,11 @@
     font-weight: 400;
 }
 
-body {
+* {
     font-family: var(--font-family-base);
+}
+
+body {
     font-size: var(--body-size);
     line-height: 1.5;
 }

@@ -1,9 +1,15 @@
-import Demo from "@/components/Demo";
+import { getHealthCheck } from "@/services/api";
+import { useQuery } from "@tanstack/react-query";
 
 export default function HomeView() {
-    return (
-        <div>
-            <Demo />
-        </div>
+    const { data, isLoading } = useQuery({
+        queryKey: ['health'],
+        queryFn: getHealthCheck
+    })
+
+    if (isLoading) return <div>Loading...</div>
+
+    if (data) return (
+        <pre>{JSON.stringify(data, null, 2)}</pre>
     )
 }

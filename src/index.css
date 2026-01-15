@@ -11,15 +11,52 @@
 @theme {
 
     /* Brand */
-    --color-primary: #0F2A44;
-    --color-primary-hover: #173A5E;
 
-    --color-secondary: #E08E2E;
-    --color-secondary-hover: #C7771C;
+    /* --- Primary (Azul Oscuro) --- */
+    --color-primary-50: #f4f7fa;
+    --color-primary-100: #e4ebf4;
+    --color-primary-200: #c4d6ea;
+    --color-primary-300: #92b8dd;
+    --color-primary-400: #5b97cc;
+    --color-primary-500: #3a7bb8;
+    --color-primary-600: #2b6095;
+    --color-primary-700: #234d78;
+    --color-primary-800: #173a5e;
+    /* Hover original */
+    --color-primary-900: #0f2a44;
+    /* Base original */
+    --color-primary-950: #081726;
 
-    --color-accent: #1FA4A9;
-    --color-accent-hover: #178489;
-    --color-accent-soft: #D2F3F4;
+    /* --- Secondary (Naranja) --- */
+    --color-secondary-50: #fdf8f3;
+    --color-secondary-100: #fbeee3;
+    --color-secondary-200: #f6d9c0;
+    --color-secondary-300: #f0bd8d;
+    --color-secondary-400: #e8a25d;
+    --color-secondary-500: #e08e2e;
+    /* Base original */
+    --color-secondary-600: #c7771c;
+    /* Hover original */
+    --color-secondary-700: #a65e15;
+    --color-secondary-800: #874b16;
+    --color-secondary-900: #6e3e15;
+    --color-secondary-950: #3e2009;
+
+    /* --- Accent (Turquesa) --- */
+    --color-accent-50: #f0fafd;
+    --color-accent-100: #d2f3f4;
+    /* Soft original */
+    --color-accent-200: #aae3e6;
+    --color-accent-300: #76ccd2;
+    --color-accent-400: #49b1b7;
+    --color-accent-500: #1fa4a9;
+    /* Base original */
+    --color-accent-600: #178489;
+    /* Hover original */
+    --color-accent-700: #156a6f;
+    --color-accent-800: #165559;
+    --color-accent-900: #16464a;
+    --color-accent-950: #08292d;
 
     /* Semantic */
     --color-success: #1F7A5A;
@@ -32,9 +69,10 @@
     --color-surface: #FFFFFF;
     --color-border: #E3E6EA;
 
-    --color-text-main: #1F2933;
-    --color-text-secondary: #4B5563;
-    --color-text-muted: #9CA3AF;
+    --color-main: #1F2933;
+    --color-on-primary: #e4ebf4;
+    --color-secondary: #4B5563;
+    --color-muted: #9CA3AF;
 }
 
 @utility text-h1 {
@@ -77,4 +115,26 @@ body {
     font-family: var(--font-family-base);
     font-size: var(--body-size);
     line-height: 1.5;
+}
+
+/* Style Buttons & Links */
+
+.base-styles {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 font-medium transition-all duration-200 focus:outline-none focus:ring-offset-1 cursor-pointer;
+}
+
+.btn-primary {
+    @apply bg-primary-900 text-on-primary hover:bg-primary-800 active:scale-95 focus:bg-primary-800;
+}
+
+.btn-secondary {
+    @apply border border-primary-900 text-primary-900 bg-transparent hover:bg-primary-100 active:scale-95 focus:bg-primary-100;
+}
+
+.btn-tertiary {
+    @apply text-primary-900 hover:bg-primary-100 active:scale-95 focus:bg-primary-100;
+}
+
+.btn-disabled {
+    @apply opacity-50 cursor-not-allowed pointer-events-none;
 }

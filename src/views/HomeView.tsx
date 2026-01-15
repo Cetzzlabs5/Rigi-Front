@@ -1,7 +1,12 @@
+import Button from "@/components/UI/Button";
+import Modal from "@/components/UI/Modal";
 import { getHealthCheck } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 export default function HomeView() {
+
+    const [openModal, setOpenModal] = useState(false)
     const { data, isLoading } = useQuery({
         queryKey: ['health'],
         queryFn: getHealthCheck
@@ -10,6 +15,13 @@ export default function HomeView() {
     if (isLoading) return <div>Loading...</div>
 
     if (data) return (
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+        <>
+            <Button onClick={() => setOpenModal(true)}>Open Modal</Button>
+            {openModal && (
+                <Modal title="Health Check" onClose={() => { setOpenModal(false) }}>
+                    <pre>{JSON.stringify(data, null, 2)}</pre>
+                </Modal>
+            )}
+        </>
     )
 }

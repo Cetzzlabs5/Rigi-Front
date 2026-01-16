@@ -19,7 +19,7 @@ export default function HomeView() {
             <Button onClick={() => setOpenModal(true)}>Open Modal</Button>
             {openModal && (
                 <Modal title="Health Check" onClose={() => { setOpenModal(false) }}>
-                    <pre>{JSON.stringify(data, null, 2)}</pre>
+                    <pre>{data}</pre>
                 </Modal>
             )}
         </>

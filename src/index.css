@@ -22,9 +22,9 @@
     --color-primary-600: #2b6095;
     --color-primary-700: #234d78;
     --color-primary-800: #173a5e;
-    /* Hover original */
-    --color-primary-900: #0f2a44;
     /* Base original */
+    --color-primary-900: #0f2a44;
+    /* Hover original */
     --color-primary-950: #081726;
 
     /* --- Secondary (Naranja) --- */

@@ -14,7 +14,7 @@ export function ProviderProfileForm() {
     const [activities, setActivities] = useState<any[]>([])
     const [loadingActivities, setLoadingActivities] = useState(true)
     const [submitting, setSubmitting] = useState(false)
-    const [openModal, setOpenModal] = useState(true)
+    const [openModal, setOpenModal] = useState(false)
     const navigate = useNavigate()
 
     // TODO extraer la id del usuario autenticado del contexto

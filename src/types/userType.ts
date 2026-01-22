@@ -25,13 +25,28 @@ export const userSchema = z.object({
     cuit: z.string(),
     role: UserRole,
     password: z.string(),
+    password_confirm: z.string(),
     isActive: z.boolean(),
     createdAt: z.date(),
     updatedAt: z.date(),
     providers: z.array(z.string()),
     miningCompanies: z.array(z.string()),
-    tokens: z.array(z.string())
+    token: z.string()
 })
+
 
 export type User = z.infer<typeof userSchema>
 export type UserLoginForm = Pick<User, "email" | "password">
+export type ForgotPasswordForm = Pick<User, "email">
+export type ConfirmToken = Pick<User, "token">
+export type NewPasswordForm = Pick<User, "password" | "password_confirm">
+
+export const sessionSchema = userSchema.pick({
+    id: true,
+    legalName: true,
+    email: true,
+    role: true,
+    isActive: true,
+})
+
+export type Session = z.infer<typeof sessionSchema>

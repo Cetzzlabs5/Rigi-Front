@@ -10,7 +10,7 @@ export default function router() {
                 <Route path="/" element={<MainLayout />}>
                     <Route index element={<HomeView />} />
                 </Route>
-                <Route path="/provider-data" element={<ProviderData />} />
+                <Route path="/provider-profile" element={<ProviderData />} />
             </Routes>
         </BrowserRouter>
     )

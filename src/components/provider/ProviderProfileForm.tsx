@@ -1,18 +1,33 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
+
+import { FaRegCircleCheck } from 'react-icons/fa6'
+
 import { ProviderActivitySelect } from './ProviderActivitySelect'
+import { getProviderActivities } from '@/services/ProviderActivityAPI'
+import { updateProviderProfile } from '@/services/ProviderAPI'
+
 import Input from '../UI/Input'
 import Button from '../UI/Button'
-import { getProviderActivities } from '@/services/ProviderActivityAPI'
+import Modal from '../UI/Modal'
 
 export function ProviderProfileForm() {
     const [activities, setActivities] = useState<any[]>([])
     const [loadingActivities, setLoadingActivities] = useState(true)
     const [submitting, setSubmitting] = useState(false)
+    const [openModal, setOpenModal] = useState(true)
+    const navigate = useNavigate()
+
+    // TODO extraer la id del usuario autenticado del contexto
+    const userId = "1"
+    // TODO PELIGROOO
 
     const [form, setForm] = useState({
         legalName: '',
         phone: '',
         providerActivityId: '',
+        address: '',
+        province: '',
     })
 
     useEffect(() => {
@@ -28,11 +43,21 @@ export function ProviderProfileForm() {
         e.preventDefault()
         setSubmitting(true)
 
-        console.log(form)
+        try {
+            await updateProviderProfile(userId, {
+                legalName: form.legalName,
+                phone: form.phone,
+                providerActivityId: form.providerActivityId,
+                address: form.address,
+                province: form.province,
+            })
 
-        setTimeout(() => {
+            setOpenModal(true)
+        } catch (error) {
+            console.error(error)
+        } finally {
             setSubmitting(false)
-        }, 1000)
+        }
     }
 
     if (loadingActivities) {
@@ -94,6 +119,28 @@ export function ProviderProfileForm() {
                     }
                 />
 
+                <Input
+                    id="address"
+                    label="Dirección"
+                    placeholder=""
+                    value={form.address}
+                    onChange={(e) =>
+                        setForm({ ...form, address: e.target.value })
+                    }
+                    required
+                />
+
+                <Input
+                    id="province"
+                    label="Provincia"
+                    placeholder="Salta"
+                    value={form.province}
+                    onChange={(e) =>
+                        setForm({ ...form, province: e.target.value })
+                    }
+                    required
+                />
+
                 <div className="pt-2">
                     <Button
                         type="submit"
@@ -106,6 +153,35 @@ export function ProviderProfileForm() {
                     </Button>
                 </div>
             </form>
+
+            {openModal && (
+                <Modal
+                    title=""
+                    onClose={() => navigate('/')}
+                >
+                    <div className="flex flex-col items-center gap-4 py-4 text-center">
+                        <FaRegCircleCheck className='text-success size-14' />
+
+                        <p className="text-body text-main">
+                            Tu perfil de proveedor se completó correctamente.
+                        </p>
+
+                        <p className="text-body-sm text-muted">
+                            Ya podés comenzar a operar dentro de la plataforma.
+                        </p>
+
+                        <div className="flex justify-end w-full gap-3 pt-4">
+                            <Button
+                                variant="primary"
+                                onClick={() => navigate('/')}
+                            >
+                                Ir al panel
+                            </Button>
+                        </div>
+                    </div>
+                </Modal>
+            )}
+
         </div>
     )
 }

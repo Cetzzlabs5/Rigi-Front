@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router'
 import { FaRegCircleCheck } from 'react-icons/fa6'
 
 import { ProviderActivitySelect } from './ProviderActivitySelect'
-import { getProviderActivities } from '@/services/ProviderActivityAPI'
-import { updateProviderProfile } from '@/services/ProviderAPI'
+import { updateProviderProfile, getProviderActivities } from '@/services/ProviderAPI'
 
 import Input from '../UI/Input'
 import Button from '../UI/Button'

@@ -17,7 +17,7 @@ export default function LoginView() {
 
     const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues })
 
-    const { mutate } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationFn: login,
         onError: (error) => {
             console.log(error)
@@ -49,7 +49,7 @@ export default function LoginView() {
                     </small>
                 </div>
             </div>
-            <div className="min-w-5/12 flex flex-col justify-center items-center p-6 lg:p-12 overflow-y-hidden">
+            <div className="min-w-5/12 flex flex-col justify-center items-center px-6 lg:px-12 overflow-y-hidden">
                 <div className="flex flex-col items-start gap-8 max-w-[440px] w-full">
                     <div className="bg-accent-900/10 p-2 rounded-lg">
                         <MdDiamond className="size-12 text-accent-900" />
@@ -87,7 +87,7 @@ export default function LoginView() {
                             })}
                             error={errors.password?.message}
                         />
-                        <Button type="submit" className="w-full mt-4">Iniciar Sesión</Button>
+                        <Button type="submit" className="w-full mt-4" loading={isPending}>Iniciar Sesión</Button>
                     </form>
                     {errorState && <p className="bg-error/10 text-error p-2 rounded-lg text-sm w-full text-center font-semibold">{errorState}</p>}
 

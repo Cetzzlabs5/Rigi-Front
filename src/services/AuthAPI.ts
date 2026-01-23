@@ -16,7 +16,7 @@ export interface ConfirmTokenDTO {
 
 export const registerAccount = async (formData: RegisterAccountDTO) => {
     try {
-        const { data } = await api.post('/api/auth/register', formData)
+        const { data } = await api.post('/auth/register', formData)
         return data
     } catch (error) {
         if (isAxiosError(error) && error.response) {
@@ -28,7 +28,7 @@ export const registerAccount = async (formData: RegisterAccountDTO) => {
 
 export const confirmAccount = async (formData: ConfirmTokenDTO) => {
     try {
-        const { data } = await api.post('/api/auth/confirm-account', formData)
+        const { data } = await api.post('/auth/confirm-account', formData)
         return data
     } catch (error) {
         if (isAxiosError(error) && error.response) {

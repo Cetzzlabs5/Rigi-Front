@@ -81,7 +81,7 @@ export default function LoginView() {
 
             <div className="text-center">
                 <Linked variant="ghost" to="/auth/forgot-password" >¿Olvidaste tu contraseña? <span className="text-primary-900 font-semibold">Recuperala</span></Linked>
-                <Linked variant="ghost" to="/register" >¿No tienes una cuenta? <span className="text-primary-900 font-semibold">Registrate</span></Linked>
+                <Linked variant="ghost" to="/auth/register" >¿No tienes una cuenta? <span className="text-primary-900 font-semibold">Registrate</span></Linked>
             </div>
         </>
     )

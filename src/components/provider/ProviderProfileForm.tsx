@@ -9,6 +9,7 @@ import { updateProviderProfile, getProviderActivities } from '@/services/Provide
 import Input from '../UI/Input'
 import Button from '../UI/Button'
 import Modal from '../UI/Modal'
+import { useAuth } from '@/hooks/useAuth'
 
 export function ProviderProfileForm() {
     const [activities, setActivities] = useState<any[]>([])
@@ -16,9 +17,10 @@ export function ProviderProfileForm() {
     const [submitting, setSubmitting] = useState(false)
     const [openModal, setOpenModal] = useState(false)
     const navigate = useNavigate()
+    const { data, isLoading } = useAuth()
 
     // TODO extraer la id del usuario autenticado del contexto
-    const userId = "1"
+    const userId = data?.id
     // TODO PELIGROOO
 
     const [form, setForm] = useState({
@@ -42,24 +44,27 @@ export function ProviderProfileForm() {
         e.preventDefault()
         setSubmitting(true)
 
-        try {
-            await updateProviderProfile(userId, {
-                legalName: form.legalName,
-                phone: form.phone,
-                providerActivityId: form.providerActivityId,
-                address: form.address,
-                province: form.province,
-            })
+        if (userId) {
+            try {
+                await updateProviderProfile(userId, {
+                    legalName: form.legalName,
+                    phone: form.phone,
+                    providerActivityId: form.providerActivityId,
+                    address: form.address,
+                    province: form.province,
+                })
 
-            setOpenModal(true)
-        } catch (error) {
-            console.error(error)
-        } finally {
-            setSubmitting(false)
+                setOpenModal(true)
+            } catch (error) {
+                console.error(error)
+            } finally {
+                setSubmitting(false)
+            }
         }
+
     }
 
-    if (loadingActivities) {
+    if (loadingActivities || isLoading) {
         return (
             <div className="bg-surface rounded-lg max-w-md w-full animate-pulse space-y-4">
                 <div className="h-6 bg-border rounded w-2/3 m-6" />

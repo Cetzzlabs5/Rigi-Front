@@ -20,7 +20,7 @@ export async function updateProviderProfile(
     payload: UpdateProviderProfilePayload
 ) {
     const { data } = await api.patch(
-        `/api/provider/${userId}`,
+        `/provider/${userId}`,
         payload
     )
 
@@ -28,6 +28,6 @@ export async function updateProviderProfile(
 }
 
 export const getProviderActivities = async (): Promise<ProviderActivityDTO[]> => {
-    const response = await api.get<ProviderActivityDTO[]>('/api/providerActivity')
+    const response = await api.get<ProviderActivityDTO[]>('/providerActivity')
     return response.data
 }

@@ -22,11 +22,9 @@ export default function LoginView() {
     const { mutate, isPending } = useMutation({
         mutationFn: login,
         onError: (error) => {
-            console.log(error)
             setErrorState(error.message)
         },
         onSuccess: () => {
-            console.log("success")
             navigate('/dashboard')
 
         }
@@ -79,10 +77,10 @@ export default function LoginView() {
             </form>
             {errorState && <p className="bg-error/10 text-error p-2 rounded-lg text-sm w-full text-center font-semibold">{errorState}</p>}
 
-            <div className="text-center">
+            <nav className="text-center">
                 <Linked variant="ghost" to="/auth/forgot-password" >¿Olvidaste tu contraseña? <span className="text-primary-900 font-semibold">Recuperala</span></Linked>
                 <Linked variant="ghost" to="/auth/register" >¿No tienes una cuenta? <span className="text-primary-900 font-semibold">Registrate</span></Linked>
-            </div>
+            </nav>
         </>
     )
 }

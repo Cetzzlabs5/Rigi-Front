@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
+import { useState } from "react";
 
 type NewPasswordFormProps = {
     token: ConfirmToken['token']
@@ -12,19 +13,19 @@ type NewPasswordFormProps = {
 
 export default function NewPasswordForm({ token }: NewPasswordFormProps) {
     const navigate = useNavigate()
+    const [errorState, setErrorState] = useState<string | null>(null)
     const defaultValues: NewPasswordForm = {
         password: '',
         password_confirm: '',
     }
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm<NewPasswordForm>({ defaultValues });
 
-    const { mutate } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationFn: updatePasswordWithToken,
         onError: (error) => {
-            console.error(error.message)
+            setErrorState(error.message)
         },
-        onSuccess: (data) => {
-            console.log(data)
+        onSuccess: () => {
             reset()
             navigate('/auth/login')
         }
@@ -46,18 +47,18 @@ export default function NewPasswordForm({ token }: NewPasswordFormProps) {
         <>
             <form
                 onSubmit={handleSubmit(handleNewPassword)}
-                className="space-y-8 p-10  bg-white mt-10"
+                className="w-full flex flex-col gap-4"
                 noValidate
             >
 
                 <Input
                     id="password"
                     type="password"
-                    placeholder="Password de Registro"
+                    label="Nueva contraseña"
+                    placeholder="********"
                     error={errors.password?.message}
-                    className="w-full p-3  border-gray-300 border"
                     {...register("password", {
-                        required: "El Password es obligatorio",
+                        required: "La contraseña es obligatoria",
                         minLength: {
                             value: 8,
                             message: 'El Password debe ser mínimo de 8 caracteres'
@@ -68,19 +69,23 @@ export default function NewPasswordForm({ token }: NewPasswordFormProps) {
                 <Input
                     id="password_confirm"
                     type="password"
-                    placeholder="Repite Password de Registro"
+                    label="Repite la nueva contraseña"
+                    placeholder="********"
                     error={errors.password_confirm?.message}
-                    className="w-full p-3  border-gray-300 border"
                     {...register("password_confirm", {
-                        required: "Repetir Password es obligatorio",
-                        validate: value => value === password || 'Los Passwords no son iguales'
+                        required: "Repetir Contraseña es obligatorio",
+                        validate: value => value === password || 'Las Contraseñas no son iguales'
                     })}
                 />
 
                 <Button
                     type="submit"
+                    className="mt-4"
+                    loading={isPending}
                 >Establecer Contraseña</Button>
             </form>
+
+            {errorState && <p className="bg-error/10 text-error p-2 rounded-lg text-sm w-full text-center font-semibold">{errorState}</p>}
         </>
     )
 }

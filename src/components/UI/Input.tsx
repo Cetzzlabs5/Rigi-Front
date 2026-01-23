@@ -47,7 +47,7 @@ export default function Input({
             {label && (
                 <label
                     htmlFor={id}
-                    className="text-caption font-medium text-main"
+                    className="text-body-sm font-medium text-main"
                 >
                     {label}
                 </label>

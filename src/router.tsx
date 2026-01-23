@@ -27,9 +27,12 @@ export default function router() {
 
                 <Route path="dashboard" element={<AppLayout />}>
                     <Route index element={<HomeView />} />
-                    <Route path="provider-documents" element={<ProviderDocumentsPanel />} />
-                    <Route path="provider-profile" element={<ProviderData />} />
+                    <Route path="provider">
+                        <Route index element={<ProviderData />} />
+                        <Route path="documents" element={<ProviderDocumentsPanel />} />
+                    </Route>
                 </Route>
+
             </Routes>
         </BrowserRouter>
     )

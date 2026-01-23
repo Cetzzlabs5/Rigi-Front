@@ -2,12 +2,14 @@ interface Props {
     value: string
     onChange: (value: string) => void
     activities: { id: string; name: string }[]
+    error?: string
 }
 
 export function ProviderActivitySelect({
     value,
     onChange,
     activities,
+    error,
 }: Props) {
     return (
         <div className="flex flex-col gap-1">
@@ -28,6 +30,9 @@ export function ProviderActivitySelect({
                     </option>
                 ))}
             </select>
+            {error && (
+                <p className="text-caption text-error">{error}</p>
+            )}
         </div>
     )
 }

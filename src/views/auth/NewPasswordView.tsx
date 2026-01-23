@@ -9,11 +9,10 @@ export default function NewPasswordView() {
 
     return (
         <>
-            <h1 className="text-5xl font-black text-white">Reestablecer constraseña</h1>
-            <p className="text-2xl font-light text-white mt-5">
-                Ingresa el codigo que recibiste {''}
-                <span className=" text-fuchsia-500 font-bold"> por email</span>
-            </p>
+            <div>
+                <h2 className="text-h1 text-primary-900 mb-4">Reestablecer constraseña</h2>
+                <p className="text-body text-primary-900">Ingrese el codigo que recibiste por email</p>
+            </div>
 
             {!isValidToken ? <NewPasswordToken token={token} setToken={setToken} setIsValidToken={setIsValidToken} /> :
                 <NewPasswordForm token={token} />}

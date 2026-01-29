@@ -33,7 +33,7 @@ const INITIAL_DOCUMENTS: ProviderDocument[] = [
     },
 ]
 
-export function ProviderDocumentsPanel() {
+export default function ProviderDocumentsPanel() {
     const { data: auth } = useAuth()
     const navigate = useNavigate()
     const [documents, setDocuments] = useState<ProviderDocument[]>(INITIAL_DOCUMENTS)

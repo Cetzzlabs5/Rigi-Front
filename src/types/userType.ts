@@ -47,6 +47,8 @@ export const sessionSchema = userSchema.pick({
     email: true,
     role: true,
     isActive: true,
+}).extend({
+    hasCompletedProfile: z.boolean().optional(),
 })
 
 export type Session = z.infer<typeof sessionSchema>

@@ -94,16 +94,15 @@ export async function updatePasswordWithToken({ formData, token }: { formData: N
     }
 }
 
-export async function logout() {
+export async function logoutUser() {
     try {
-        const url = '/auth/logout'
-        const { data } = await api.post<string>(url)
-        return data
+        const { data } = await api.get('/auth/logout');
+        return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
-            const errorData = error.response.data
-            throw new Error(errorData.error)
+            throw new Error(error.response.data.error);
         }
+        throw new Error('Error al cerrar sesión');
     }
 }
 

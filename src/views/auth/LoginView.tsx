@@ -1,9 +1,9 @@
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
 import Linked from "@/components/UI/Linked";
-import { login } from "@/services/AuthAPI";
+import { getSession, login } from "@/services/AuthAPI";
 import type { UserLoginForm } from "@/types/userType";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdDiamond } from "react-icons/md";
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router";
 
 export default function LoginView() {
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const [errorState, setErrorState] = useState<string | null>(null)
     const defaultValues: UserLoginForm = {
         email: "",
@@ -24,9 +25,22 @@ export default function LoginView() {
         onError: (error) => {
             setErrorState(error.message)
         },
-        onSuccess: () => {
-            navigate('/dashboard')
+        onSuccess: async () => {
+            // Invalidar y esperar a que se actualice la sesión
+            await queryClient.invalidateQueries({ queryKey: ['session'] })
 
+            // Obtener sesión actualizada
+            const session = await queryClient.fetchQuery({
+                queryKey: ['session'],
+                queryFn: getSession
+            })
+
+            // Verificar si es proveedor y si completó el perfil
+            if (session?.role === 'PROVIDER' && session?.hasCompletedProfile === false) {
+                navigate('/dashboard/provider/complete-profile')
+            } else {
+                navigate('/dashboard')
+            }
         }
     })
 

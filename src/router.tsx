@@ -9,13 +9,14 @@ import AppLayout from "./layouts/AppLayout";
 import ProviderData from "./views/provider/ProviderData";
 import { ProviderDocumentsPanel } from "./views/provider/ProviderDocumentsPanel";
 import RegisterView from "./views/provider/RegisterView";
+import { RequireIncompleteProfile } from "./components/auth/RequireIncompleteProfile";
 
 export default function router() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<MainLayout />}>
-                    <Route index element={<HomeView />} />
+                <Route path="/" element={<AuthLayout />}>
+                    <Route index element={<LoginView />} />
                 </Route>
 
                 <Route path="auth" element={<AuthLayout />}>
@@ -28,10 +29,19 @@ export default function router() {
                 <Route path="dashboard" element={<AppLayout />}>
                     <Route index element={<HomeView />} />
                     <Route path="provider">
+                        <Route
+                            path="complete-profile"
+                            element={
+                                <RequireIncompleteProfile>
+                                    <ProviderData />
+                                </RequireIncompleteProfile>
+                            }
+                        />
                         <Route index element={<ProviderData />} />
                         <Route path="documents" element={<ProviderDocumentsPanel />} />
                     </Route>
                 </Route>
+
 
             </Routes>
         </BrowserRouter>

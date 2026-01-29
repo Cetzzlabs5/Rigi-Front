@@ -7,9 +7,7 @@ import { useNavigate } from 'react-router'
 import { useAuth } from '@/hooks/useAuth'
 import { uploadDocument } from '@/services/DocumentAPI'
 import type { DocumentType, ProviderDocument } from '@/types/documentType'
-import { REJECTION_MESSAGES } from '@/types/documentType'
 import { validateDocumentFile } from '@/utils/fileValidation'
-
 
 const INITIAL_DOCUMENTS: ProviderDocument[] = [
     {
@@ -62,10 +60,7 @@ export function ProviderDocumentsPanel() {
                                 fileName: data.fileName,
                                 fileSize: data.fileSize,
                                 uploadedAt: data.uploadedAt,
-                                rejectionReason: data.rejectionReason
-                                    ? REJECTION_MESSAGES[data.rejectionReason] ||
-                                    REJECTION_MESSAGES.default
-                                    : undefined,
+                                rejectionReason: data.rejectionReason,
                             },
                         }
                         : doc
@@ -82,7 +77,7 @@ export function ProviderDocumentsPanel() {
             setDocuments((prev) =>
                 prev.map((doc) =>
                     doc.type === documentType
-                        ? { ...doc, status: 'not_uploaded', file: null, metadata: {} }
+                        ? { ...doc, status: 'not_uploaded', file: doc.file, metadata: {} }
                         : doc
                 )
             )
@@ -126,13 +121,23 @@ export function ProviderDocumentsPanel() {
     const handleVerify = (type: DocumentType) => {
         const document = documents.find((doc) => doc.type === type)
         if (!document?.file) return
+
+        // Actualizar el estado a 'uploading' antes de la mutación
+        setDocuments((prev) =>
+            prev.map((doc) =>
+                doc.type === type
+                    ? { ...doc, status: 'uploading' as const }
+                    : doc
+            )
+        )
+
         uploadMutation.mutate({ documentType: type, file: document.file })
     }
 
     const verifiedCount = documents.filter((d) => d.status === 'verified').length
     const uploadedCount = documents.filter((d) => d.status !== 'not_uploaded').length
     const isComplete = verifiedCount === documents.length
-    const isUploading = uploadMutation.isPending
+    const hasAnyUploading = documents.some((d) => d.status === 'uploading')
 
     return (
         <main className=" bg-background flex items-center justify-center px-4 py-8">
@@ -187,7 +192,7 @@ export function ProviderDocumentsPanel() {
                             metadata={doc.metadata}
                             onFileSelect={(file) => handleFileChange(doc.type, file)}
                             onVerify={() => handleVerify(doc.type)}
-                            disabled={isUploading && doc.status !== 'uploading'}
+                            disabled={doc.status === 'uploading'}
                             validationError={validationErrors[doc.type]}
                         />
                     ))}
@@ -198,14 +203,14 @@ export function ProviderDocumentsPanel() {
                         variant="secondary"
                         type="button"
                         onClick={() => navigate('/dashboard')}
-                        disabled={isUploading}
+                        disabled={hasAnyUploading}
                     >
                         Volver
                     </Button>
                     <Button
                         variant="primary"
                         type="submit"
-                        disabled={!isComplete || isUploading}
+                        disabled={!isComplete || hasAnyUploading}
                         onClick={() => navigate('/dashboard')}
                     >
                         Continuar

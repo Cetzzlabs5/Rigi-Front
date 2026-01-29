@@ -41,13 +41,3 @@ export interface ProviderDocument {
     file: File | null
     metadata: DocumentMetadata
 }
-
-// Rejection reason messages
-export const REJECTION_MESSAGES: Record<string, string> = {
-    cuit_mismatch: 'El CUIT del documento no coincide con tu perfil',
-    unreadable: 'El documento no se pudo leer correctamente',
-    invalid_format: 'El formato del documento no es válido',
-    expired: 'El documento está vencido',
-    missing_data: 'Faltan datos obligatorios en el documento',
-    default: 'El documento fue rechazado. Por favor, verificá la información.',
-}

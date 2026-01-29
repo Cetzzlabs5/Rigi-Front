@@ -6,18 +6,13 @@ import { useState } from "react"
 
 
 export default function AppLayout() {
-    const { data, isLoading } = useAuth()
+    const { data, isLoading, logout } = useAuth()
     const navigate = useNavigate()
     const location = useLocation()
     const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
     if (isLoading) return <Loader />
     if (!data) return <Navigate to='/auth/login' />
-
-    const handleLogout = () => {
-        localStorage.removeItem('AUTH_TOKEN')
-        navigate('/auth/login')
-    }
 
     const menuItems = [
         { icon: MdDashboard, label: 'Dashboard', path: '/dashboard' },
@@ -100,7 +95,7 @@ export default function AppLayout() {
                         </div>
 
                         <button
-                            onClick={handleLogout}
+                            onClick={logout}
                             className="p-2.5 hover:bg-error/10 text-error rounded-lg transition-colors"
                             title="Cerrar sesión"
                         >

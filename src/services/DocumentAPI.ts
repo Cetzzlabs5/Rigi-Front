@@ -12,10 +12,10 @@ export async function uploadDocument(data: UploadDocumentDTO): Promise<DocumentR
         const formData = new FormData()
         formData.append('file', data.file)
         formData.append('documentType', data.documentType)
-        formData.append('providerId', data.providerId)
+        formData.append('requirementId', '1')
 
-        const response = await api.post<DocumentResponse>(
-            '/provider/documents/upload',
+        const response = await api.post<any>(
+            '/providerActivity/upload',
             formData,
             {
                 headers: {
@@ -24,9 +24,29 @@ export async function uploadDocument(data: UploadDocumentDTO): Promise<DocumentR
             }
         )
 
-        return response.data
+        // Mapear la respuesta del backend al formato esperado por el frontend
+        return {
+            id: response.data.id,
+            status: response.data.status.toLowerCase(),
+            fileName: response.data.originalName,
+            fileSize: response.data.size,
+            uploadedAt: new Date(response.data.createdAt).toISOString(),
+            rejectionReason: response.data.rejectionReason
+        }
     } catch (error) {
         if (isAxiosError(error) && error.response) {
+            // Caso especial: documento rechazado (422)
+            // El documento está guardado en BD pero fue rechazado por validación
+            if (error.response.status === 422) {
+                return {
+                    id: '', // No retornamos ID en caso de rechazo
+                    status: 'rejected',
+                    fileName: data.file.name,
+                    fileSize: data.file.size,
+                    uploadedAt: new Date().toISOString(),
+                    rejectionReason: error.response.data.rejectionReason
+                }
+            }
             throw new Error(
                 error.response.data.message || 'Error al subir documento'
             )

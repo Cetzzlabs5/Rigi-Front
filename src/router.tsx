@@ -15,8 +15,8 @@ export default function router() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<MainLayout />}>
-                    <Route index element={<HomeView />} />
+                <Route path="/" element={<AuthLayout />}>
+                    <Route index element={<LoginView />} />
                 </Route>
 
                 <Route path="auth" element={<AuthLayout />}>
@@ -25,7 +25,7 @@ export default function router() {
                     <Route path="new-password" element={<NewPasswordView />} />
                     <Route path="register" element={<RegisterView />} />
                 </Route>
-                
+
                 <Route path="dashboard" element={<AppLayout />}>
                     <Route index element={<HomeView />} />
                     <Route path="provider">

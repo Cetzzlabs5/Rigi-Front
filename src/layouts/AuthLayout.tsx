@@ -1,7 +1,16 @@
+import Loader from "@/components/UI/Loader";
+import { useAuth } from "@/hooks/useAuth";
 import { MdEngineering, MdOutlineVerifiedUser } from "react-icons/md";
-import { Outlet } from "react-router";
+import { Outlet, Navigate } from "react-router";
 
 export default function AuthLayout() {
+
+    const { data, isLoading } = useAuth()
+
+    if (isLoading) return <Loader />
+
+    if (data) return <Navigate to='/dashboard' />
+
     return (
         <section className="flex min-h-screen overflow-y-hidden">
             <div className="grow relative p-12 flex flex-col justify-end">

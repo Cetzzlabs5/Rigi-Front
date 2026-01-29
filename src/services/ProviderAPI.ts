@@ -1,16 +1,5 @@
 import api from '@/libs/axios'
-
-export interface ProviderActivityDTO {
-    id: string
-    name: string
-}
-
-export interface UpdateProviderProfileDTO {
-    phone: string
-    providerActivityId: string
-    address?: string
-    province?: string
-}
+import type { ProviderActivityDTO, UpdateProviderProfileDTO } from '@/types/providerType'
 
 export const updateProviderProfile = async (userId: string, payload: UpdateProviderProfileDTO) => {
     const { data } = await api.patch(`/provider/${userId}`, payload)

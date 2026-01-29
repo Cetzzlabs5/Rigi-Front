@@ -3,23 +3,26 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
 export const useAuth = () => {
-
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
 
     const { data, isError, isLoading } = useQuery({
         queryKey: ['session'],
         queryFn: getSession,
         retry: false,
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
+        staleTime: 1000 * 60 * 5
     })
-
-    const queryClient = useQueryClient()
 
     const { mutate } = useMutation({
         mutationFn: logoutUser,
         onSuccess: () => {
-            queryClient.removeQueries({ queryKey: ['session'] })
-            navigate('/')
+            queryClient.setQueryData(['session'], null);
+            navigate('/auth/login');
+        },
+        onError: () => {
+            queryClient.setQueryData(['session'], null);
+            navigate('/auth/login');
         }
     })
 

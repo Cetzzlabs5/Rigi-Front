@@ -1,5 +1,5 @@
 import { FiCheckCircle, FiClock, FiLoader, FiXCircle } from 'react-icons/fi'
-import type { DocumentStatus } from '@/services/DocumentAPI'
+import type { DocumentStatus } from '@/types/documentType'
 
 interface StatusBadgeProps {
     status: DocumentStatus
@@ -31,12 +31,6 @@ const STATUS_CONFIGS: Record<DocumentStatus, StatusConfig> = {
         bg: 'bg-warning/10',
         label: 'Pendiente',
         icon: <FiClock className="size-4" />,
-    },
-    processing: {
-        color: 'text-info',
-        bg: 'bg-info/10',
-        label: 'Procesando',
-        icon: <FiLoader className="size-4 animate-spin" />,
     },
     verified: {
         color: 'text-success',

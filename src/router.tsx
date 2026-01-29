@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router";
-import MainLayout from "./layouts/MainLayout";
 import HomeView from "./views/HomeView";
 import LoginView from "./views/auth/LoginView";
 import AuthLayout from "./layouts/AuthLayout";
